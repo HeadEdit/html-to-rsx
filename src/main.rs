@@ -5,6 +5,9 @@ use std::{
     path::PathBuf,
 };
 
+use std::fs;
+use std::path::Path;
+
 #[derive(Debug, Parser)]
 struct Opt {
     input: Option<PathBuf>,
@@ -30,4 +33,7 @@ fn main() {
     let rsx = html_to_rsx::parse(&content).expect("should convert html to rsx");
 
     println!("{rsx}");
+    let path = Path::new("D:/Temp/html-to-rsx/output.txt");
+
+    fs::write(&path, rsx);
 }

@@ -30,7 +30,3 @@ div {
     br { }
 }
 ```
-
-We are curretly bare bone and WIP, lot of work needs to be done. e.g. formatting the RSX, having `r#type` instead of type for input, etc.
-
-Feel free to open issues/ PR and contribute to the project <3
