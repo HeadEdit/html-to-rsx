@@ -1,9 +1,23 @@
 use html_parser::{Dom, Element, Node};
-
+use std::collections::HashMap;
+use lazy_static::lazy_static;
 #[derive(Debug)]
 pub enum Error {
     ParseError(String),
 }
+
+
+lazy_static! {
+    static ref HTML_TO_RSX_CONSTANTS: HashMap<&'static str, &'static str> = {
+        let mut m = HashMap::new();
+        m.insert("viewBox", "view_box");
+        m.insert("-", "_");
+        m.insert("for", "r#for");
+        m.insert("type", "r#type");
+        m
+    };
+}
+
 
 pub fn parse(html: &str) -> Result<String, Error> {
     let dom = Dom::parse(html).map_err(|e| Error::ParseError(format!("{e}")))?;
@@ -41,10 +55,10 @@ fn element_parser(mut element: Element,layer:u32) -> String {
     }
 
     for (atbr, val) in &element.attributes {
-        if(atbr=="viewBox"){
-            continue;
+        let mut atbr_name = atbr.clone();
+        if HTML_TO_RSX_CONSTANTS.contains_key(atbr.as_str()){
+            atbr_name = HTML_TO_RSX_CONSTANTS.get(atbr.as_str()).map_or(atbr_name, ToString::to_string);
         }
-        let atbr_name = atbr.replace("-", "_").replace("for", "r#for").replace("type", "r#type");
         let res = if let Some(v) = val {
             format!("{atbr_name}: \"{v}\",")
         } else {
