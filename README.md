@@ -1,5 +1,5 @@
 # HTML to RSX
-基于https://github.com/swanandx/html-to-rsx的二次开发
+基于https://github.com/swanandx/html-to-rsx   的二次开发
 
 添加了格式化和html-to-rsx关键词转换
 
